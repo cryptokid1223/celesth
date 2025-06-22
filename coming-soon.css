@@ -73,6 +73,112 @@ body {
     width: 100%;
 }
 
+/* X Button */
+.x-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 1rem;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    contain: layout style paint;
+    backdrop-filter: blur(10px);
+}
+
+.x-button:hover {
+    transform: translateZ(0) translateY(-2px);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.x-button:active {
+    transform: translateZ(0) translateY(0);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.x-button svg {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.3s ease;
+    contain: layout style paint;
+}
+
+.x-button:hover svg {
+    color: #fff;
+}
+
+.x-button::after {
+    display: none;
+}
+
+/* Telegram Button */
+.telegram-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+    margin-left: 1rem;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    contain: layout style paint;
+    backdrop-filter: blur(10px);
+}
+
+.telegram-button:hover {
+    transform: translateZ(0) translateY(-2px);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.telegram-button:active {
+    transform: translateZ(0) translateY(0);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.telegram-button svg {
+    width: 16px;
+    height: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.3s ease;
+    contain: layout style paint;
+}
+
+.telegram-button:hover svg {
+    color: #fff;
+}
+
+.telegram-button::after {
+    display: none;
+}
+
 /* Main Content */
 .main-content {
     display: flex;
