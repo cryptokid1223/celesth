@@ -1,0 +1,230 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@font-face {
+    font-family: 'Helvetica-Bold';
+    src: url('Helvetica-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'CustomFont';
+    src: url('font.otf') format('opentype');
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #fff;
+    overflow-x: hidden;
+    background: #000;
+    min-height: 100vh;
+    position: relative;
+    scroll-behavior: smooth;
+}
+
+/* Top Right Navigation */
+.top-right-nav {
+    position: fixed;
+    top: 30px;
+    right: 40px;
+    z-index: 1000;
+    display: flex;
+    gap: 2rem;
+}
+
+.top-right-nav a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.2rem;
+    font-family: 'Helvetica-Bold', sans-serif;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+}
+
+.top-right-nav a:hover,
+.top-right-nav a.active {
+    color: #fff;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+}
+
+.top-right-nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(90deg, #fff, #87ceeb);
+    transition: width 0.3s ease;
+}
+
+.top-right-nav a:hover::after,
+.top-right-nav a.active::after {
+    width: 100%;
+}
+
+/* Main Content */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.coming-soon-container {
+    text-align: center;
+}
+
+.coming-soon-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #87ceeb, 0 0 80px #87ceeb;
+    animation: title-glow 4s ease-in-out infinite alternate;
+}
+
+.heart-icon,
+.will-icon,
+.transcendence-icon {
+    font-size: 4rem;
+    margin-bottom: 2rem;
+    animation: float 4s ease-in-out infinite;
+    display: block;
+}
+
+.coming-soon-subtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.coming-soon-description {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.back-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes title-glow {
+    from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff, 0 0 60px #87ceeb, 0 0 80px #87ceeb;
+    }
+    to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #dda0dd, 0 0 70px #dda0dd, 0 0 100px #dda0dd;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .top-right-nav {
+        width: 100%;
+        justify-content: center;
+        right: 0;
+        top: 20px;
+        gap: 1.5rem;
+    }
+
+    .coming-soon-title {
+        font-size: 3rem;
+    }
+    
+    .coming-soon-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .coming-soon-description {
+        font-size: 1rem;
+    }
+
+    .heart-icon,
+    .will-icon,
+    .transcendence-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-right-nav {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+    }
+    .top-right-nav a {
+        font-size: 0.9rem;
+    }
+    .coming-soon-title {
+        font-size: 2.5rem;
+    }
+    
+    .coming-soon-subtitle {
+        font-size: 1rem;
+    }
+    
+    .coming-soon-description {
+        font-size: 0.9rem;
+    }
+
+    .heart-icon,
+    .will-icon,
+    .transcendence-icon {
+        font-size: 2.5rem;
+    }
+} 
