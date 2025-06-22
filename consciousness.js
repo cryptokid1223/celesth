@@ -11,29 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.style.display = 'block';
         cursorDot.style.display = 'block';
 
-        let mouseX = 0;
-        let mouseY = 0;
-        let cursorX = 0;
-        let cursorY = 0;
-        
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Smooth cursor animation
-        function updateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
             
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
             cursorDot.style.left = mouseX + 'px';
             cursorDot.style.top = mouseY + 'px';
-            
-            requestAnimationFrame(updateCursor);
-        }
-        updateCursor();
+        });
         
         // Add hover effects for interactive elements
         const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');
