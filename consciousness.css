@@ -864,13 +864,13 @@ body {
     }
     
     .consciousness-title {
-        font-size: 6.5vw;
+        font-size: 9vw;
         letter-spacing: -0.05em;
         line-height: 1.1;
     }
     
     .quote {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin-top: 1.5rem;
     }
     
@@ -920,7 +920,7 @@ body {
         font-size: 1.1rem;
     }
     .consciousness-title {
-        font-size: 7vw;
+        font-size: 10vw;
     }
     .bordered-content {
         padding: 1rem;
@@ -935,20 +935,20 @@ body {
         height: 38px;
     }
     #play-pause-btn.play::before {
-        border-top: 4px solid transparent;
-        border-bottom: 4px solid transparent;
-        border-left: 7px solid #fff;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 9px solid #fff;
     }
     
     #play-pause-btn.pause::before {
-        width: 6px;
-        height: 8px;
+        width: 8px;
+        height: 10px;
         border-left: 2px solid #fff;
         border-right: 2px solid #fff;
     }
 
     .quote {
-        font-size: 0.65rem;
+        font-size: 0.8rem;
     }
 }
 
