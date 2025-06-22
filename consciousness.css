@@ -821,30 +821,18 @@ body {
     }
     
     .character-container {
-        gap: 1rem;
         width: 100%;
-        max-width: 100%;
         padding: 0 1rem;
-        justify-content: space-between;
-        flex-wrap: nowrap;
         box-sizing: border-box;
     }
     
     .character-image-container {
-        width: 280px;
-        height: 280px;
-        flex-shrink: 0;
+        width: calc(100% - 110px); /* 100% - (2 * arrow width + 2 * gap) */
+        margin: 0 auto;
     }
     
     .nav-arrow {
-        width: 45px;
-        height: 45px;
         flex-shrink: 0;
-    }
-    
-    .nav-arrow svg {
-        width: 22px;
-        height: 22px;
     }
     
     .choose-omi-btn {
@@ -888,10 +876,7 @@ body {
         padding: 0 1rem;
     }
     .character-image-container {
-        width: 70vw;
-        height: 70vw;
-        max-width: 260px;
-        max-height: 260px;
+        width: calc(100% - 96px); /* Adjust for smaller arrows */
     }
     .nav-arrow {
         width: 38px;
