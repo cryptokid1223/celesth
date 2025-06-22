@@ -267,6 +267,9 @@ body {
 .consciousness-container {
     text-align: center;
     position: relative;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
 }
 
 /* Breathing Animation for Title */
@@ -349,7 +352,7 @@ body {
     margin-top: 2.5rem;
     text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
     font-style: italic;
-    max-width: 450px;
+    max-width: 90%;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.6;
@@ -861,12 +864,12 @@ body {
     }
     
     .consciousness-title {
-        font-size: 13vw;
+        font-size: 12vw;
         line-height: 1.1;
     }
     
     .quote {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     
     .bordered-content {
@@ -915,7 +918,7 @@ body {
         font-size: 1.1rem;
     }
     .consciousness-title {
-        font-size: 15vw;
+        font-size: 13vw;
     }
     .bordered-content {
         padding: 1rem;
@@ -926,24 +929,24 @@ body {
         font-size: 2.5rem;
     }
     #play-pause-btn {
-        width: 50px;
-        height: 50px;
+        width: 54px;
+        height: 54px;
     }
     #play-pause-btn.play::before {
-        border-top: 10px solid transparent;
-        border-bottom: 10px solid transparent;
-        border-left: 18px solid #fff;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 14px solid #fff;
     }
     
     #play-pause-btn.pause::before {
-        width: 14px;
-        height: 16px;
-        border-left: 5px solid #fff;
-        border-right: 5px solid #fff;
+        width: 12px;
+        height: 14px;
+        border-left: 4px solid #fff;
+        border-right: 4px solid #fff;
     }
 
     .quote {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 
