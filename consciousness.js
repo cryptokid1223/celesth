@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Performance optimizations
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (isMobile) {
-        document.body.classList.add('is-mobile');
-    }
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     // Custom Cursor System - Fixed
@@ -50,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 cursorDot.classList.remove('hover');
             });
         });
+    } else {
+        // Ensure cursor is explicitly hidden if not on desktop
+        if (cursor) cursor.style.display = 'none';
+        if (cursorDot) cursorDot.style.display = 'none';
     }
     
     // Particle System
