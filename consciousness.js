@@ -181,19 +181,34 @@ document.addEventListener('DOMContentLoaded', () => {
         initTypingEffects();
     }
 
-    // Optimized scroll handling
+    // Optimized scroll handling for navigation
     const nav = document.querySelector('.top-right-nav');
-    let scrollTimeout;
+    let lastScrollY = window.scrollY;
+    let isTicking = false;
 
-    const handleScroll = ultraThrottle(() => {
-        if (window.scrollY > 50) {
+    const handleScroll = () => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down and past the top
             nav.classList.add('nav-hidden');
         } else {
+            // Scrolling up
             nav.classList.remove('nav-hidden');
         }
-    }, 32);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+        lastScrollY = currentScrollY;
+        isTicking = false;
+    };
+
+    const onScroll = () => {
+        if (!isTicking) {
+            window.requestAnimationFrame(handleScroll);
+            isTicking = true;
+        }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Simplified navigation effects
     const navLinks = document.querySelectorAll('.top-right-nav a');
