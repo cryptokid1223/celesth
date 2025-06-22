@@ -10,20 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="format-detection" content="telephone=no">
     
-    <!-- Preload critical resources -->
-    <link rel="preload" href="backgroundimage.webp" as="image" type="image/webp">
-    <link rel="preload" href="Helvetica-Bold.ttf" as="font" type="font/ttf" crossorigin>
+    <!-- Critical resources only -->
+    <link rel="preload" href="newbackground.png" as="image" type="image/png">
     <link rel="preload" href="font.otf" as="font" type="font/otf" crossorigin>
     <link rel="preload" href="consciousness.css" as="style">
-    <link rel="preload" href="consciousness.js" as="script">
-    
-    <!-- Preload character images for smooth navigation -->
-    <link rel="preload" href="image1.png" as="image">
-    <link rel="preload" href="image2.png" as="image">
-    <link rel="preload" href="image3.png" as="image">
-    <link rel="preload" href="image4.png" as="image">
-    <link rel="preload" href="image5.png" as="image">
-    <link rel="preload" href="image6.png" as="image">
     
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -35,6 +25,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Raleway:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+    
+    <!-- Particle System -->
+    <div class="particles"></div>
+    
     <!-- Dot Grid Background -->
     <div class="dot-grid"></div>
 
@@ -67,6 +64,14 @@
     </main>
 
     <section class="content-section">
+        <div class="bordered-content token-address-wrapper">
+            <div class="description-section">
+                <h2 class="section-title-static">Token Address</h2>
+                <div class="token-address-box">
+                    <p>Coming Soon</p>
+                </div>
+            </div>
+        </div>
         <div class="bordered-content">
             <div class="description-section">
                 <h2 id="section-title"></h2>
@@ -90,7 +95,7 @@
                             </svg>
                         </button>
                         <div class="character-image-container">
-                            <img id="character-image" src="image1.png" alt="Character" class="character-image" loading="eager">
+                            <img id="character-image" src="image1.png" alt="Character" class="character-image" loading="lazy">
                         </div>
                         <button class="nav-arrow nav-right" onclick="nextImage()">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -99,14 +104,6 @@
                         </button>
                     </div>
                     <button id="choose-omi-btn" class="choose-omi-btn" onclick="chooseOmi()">Choose Omi</button>
-                </div>
-            </div>
-        </div>
-        <div class="bordered-content">
-            <div class="description-section">
-                <h2 class="section-title-static">Token Address</h2>
-                <div class="token-address-box">
-                    <p>Coming Soon</p>
                 </div>
             </div>
         </div>
