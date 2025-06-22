@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Performance optimizations
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+        document.body.classList.add('is-mobile');
+    }
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     // Custom Cursor System - Fixed
