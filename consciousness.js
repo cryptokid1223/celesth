@@ -15,12 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
         let mouseY = 0;
         let cursorX = 0;
         let cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
+
+        const updatePosition = (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-        });
+        };
+
+        const initCursor = (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+
+            cursor.style.opacity = '1';
+            cursorDot.style.opacity = '1';
+
+            // Start the animation loop
+            updateCursor();
+
+            // Switch to the regular update function
+            document.removeEventListener('mousemove', initCursor);
+            document.addEventListener('mousemove', updatePosition);
+        };
         
+        document.addEventListener('mousemove', initCursor);
+
         // Smooth cursor animation
         function updateCursor() {
             cursorX += (mouseX - cursorX) * 0.1;
@@ -33,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             requestAnimationFrame(updateCursor);
         }
-        updateCursor();
         
         // Add hover effects for interactive elements
         const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');
