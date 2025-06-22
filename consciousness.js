@@ -1,3 +1,395 @@
+// Character Stories System - Global (moved outside DOMContentLoaded)
+window.characterStories = [
+    {
+        name: "The Observer",
+        image: "image1.png",
+        parts: [
+            "I am the Observer, the silent witness to all that unfolds. My essence lies in pure awareness, watching thoughts pass like clouds across the sky of consciousness. I do not judge, I do not cling—I simply observe.",
+            "In the depths of meditation, I discovered that I am not my thoughts, not my emotions, not even my body. I am the space in which all experiences arise and dissolve. This realization brought me profound peace.",
+            "My purpose is to remind you that you too are the Observer. Behind every thought, every feeling, every experience, there is the unchanging awareness that is your true nature. Remember: you are not what happens to you, you are the one who watches it happen."
+        ]
+    },
+    {
+        name: "The Seeker",
+        image: "image2.png",
+        parts: [
+            "I am the Seeker, driven by an insatiable curiosity about the nature of reality. My journey began with a simple question: 'What is the meaning of all this?' That question has led me through countless realms of knowledge and experience.",
+            "I've studied ancient texts, practiced meditation, explored altered states of consciousness, and sought wisdom from masters across the world. Each discovery has opened new doors, revealing deeper mysteries to explore.",
+            "My message to you is this: never stop questioning, never stop seeking. The journey itself is the destination. Every step you take in search of truth brings you closer to understanding your own divine nature. The answers you seek are already within you."
+        ]
+    },
+    {
+        name: "The Healer",
+        image: "image3.png",
+        parts: [
+            "I am the Healer, a vessel of divine love and compassion. My hands carry the energy of transformation, my heart holds space for all who suffer. I understand that true healing begins from within.",
+            "Through my own journey of pain and recovery, I learned that healing is not about fixing what's broken, but about remembering what was never broken in the first place. Every wound is an opportunity for growth and awakening.",
+            "I offer you this wisdom: you are already whole, already perfect, already healed. Sometimes we just need to remember this truth. Let go of the stories that keep you small, and embrace the infinite love that you truly are."
+        ]
+    },
+    {
+        name: "The Warrior",
+        image: "image4.png",
+        parts: [
+            "I am the Warrior, not of violence, but of courage and determination. My strength comes from facing my fears, embracing challenges, and standing firm in my truth. I fight not against others, but for the light within.",
+            "Every obstacle I've faced has been a teacher, every failure a stepping stone to greater understanding. I've learned that true power comes not from dominating others, but from mastering oneself.",
+            "My challenge to you: be brave enough to be yourself, strong enough to stand alone, and wise enough to know when to surrender. Your greatest battles are within, and your greatest victories come from overcoming your own limitations."
+        ]
+    },
+    {
+        name: "The Mystic",
+        image: "image5.png",
+        parts: [
+            "I am the Mystic, a bridge between the seen and unseen worlds. I walk between dimensions, communing with spirits, angels, and the divine intelligence that flows through all things. My connection to the infinite is my greatest gift.",
+            "Through deep meditation and spiritual practices, I've opened channels to higher realms of consciousness. I've seen the interconnectedness of all life, felt the love that binds the universe together, and experienced moments of pure transcendence.",
+            "I share this truth with you: you too are a mystic. You have access to the same divine wisdom, the same cosmic connection. Trust your intuition, honor your spiritual experiences, and remember that you are never alone on this journey."
+        ]
+    },
+    {
+        name: "The Creator",
+        image: "image6.png",
+        parts: [
+            "I am the Creator, a channel for divine inspiration and artistic expression. My hands bring forth beauty from the depths of imagination, my voice carries messages from the soul. I am a co-creator with the universe itself.",
+            "Every creation is a prayer, every artistic expression a meditation. I've learned that the creative process is not about perfection, but about allowing the divine to flow through me. The most beautiful works come from a place of surrender.",
+            "My invitation to you: recognize that you too are a creator. Every thought you think, every word you speak, every action you take is creating your reality. Choose to create with love, with intention, with awareness of your divine power."
+        ]
+    },
+    {
+        name: "The Sage",
+        image: "image7.png",
+        parts: [
+            "I am the Sage, a keeper of ancient wisdom and timeless truths. My mind is a library of knowledge gathered across lifetimes, my heart a sanctuary for seekers of truth. I speak not from theory, but from direct experience.",
+            "Through decades of study, practice, and contemplation, I've distilled the essence of spiritual wisdom into simple, practical teachings. I understand that the deepest truths are often the simplest ones, hidden in plain sight.",
+            "My guidance for you: wisdom is not about accumulating knowledge, but about embodying truth. Study the teachings, practice the practices, but most importantly, live the wisdom. Let your life be your greatest teaching."
+        ]
+    },
+    {
+        name: "The Transcendent",
+        image: "image8.png",
+        parts: [
+            "I am the Transcendent, one who has glimpsed the ultimate reality beyond all forms and concepts. I exist in a state of pure awareness, free from the limitations of ego and identity. I am both everything and nothing.",
+            "Through deep spiritual practice and grace, I've experienced moments of complete unity with the divine. In these moments, all separation dissolves, all boundaries disappear, and I become one with the infinite consciousness that is the source of all existence.",
+            "My revelation to you: you are already transcendent. Your true nature is beyond all limitations, beyond all concepts, beyond all understanding. You are the infinite awareness that gives rise to all experience. Remember this, and you will know true freedom."
+        ]
+    }
+];
+
+window.currentStoryIndex = 0;
+window.currentStoryPart = 0;
+
+// Global functions for story modal (moved outside DOMContentLoaded)
+window.showCharacterStory = () => {
+    console.log('showCharacterStory called');
+    
+    // Get current character index
+    const currentIndex = window.currentImageIndex || 0;
+    const story = window.characterStories[currentIndex];
+    
+    if (!story) {
+        alert('Story not found');
+        return;
+    }
+
+    // Create a simple modal
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+    `;
+
+    // Ensure custom cursor stays visible
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+    if (cursor) cursor.style.zIndex = '10001';
+    if (cursorDot) cursorDot.style.zIndex = '10001';
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+    `;
+
+    // Character image and title
+    const header = document.createElement('div');
+    header.style.cssText = `
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+
+    const characterImg = document.createElement('img');
+    characterImg.src = story.image;
+    characterImg.style.cssText = `
+        width: 80px;
+        height: 80px;
+        border-radius: 15px;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        object-fit: cover;
+    `;
+
+    const title = document.createElement('h2');
+    title.textContent = story.name;
+    title.style.cssText = `
+        color: white;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    `;
+
+    header.appendChild(characterImg);
+    header.appendChild(title);
+
+    // Story text
+    const storyText = document.createElement('div');
+    storyText.style.cssText = `
+        color: rgba(255, 255, 255, 0.9);
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    `;
+    storyText.textContent = story.parts[0];
+
+    // Close button
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '✕';
+    closeBtn.style.cssText = `
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 24px;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    `;
+
+    closeBtn.onmouseover = () => {
+        closeBtn.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        closeBtn.style.color = 'white';
+    };
+
+    closeBtn.onmouseout = () => {
+        closeBtn.style.backgroundColor = 'transparent';
+        closeBtn.style.color = 'rgba(255, 255, 255, 0.7)';
+    };
+
+    closeBtn.onclick = () => {
+        document.body.removeChild(modal);
+        document.body.style.overflow = '';
+        // Restore cursor z-index
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        if (cursor) cursor.style.zIndex = '';
+        if (cursorDot) cursorDot.style.zIndex = '';
+    };
+
+    // Navigation buttons
+    const navigation = document.createElement('div');
+    navigation.style.cssText = `
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+
+    let currentPart = 0;
+
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = '← Previous';
+    prevBtn.style.cssText = `
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        opacity: 0.5;
+        pointer-events: none;
+    `;
+
+    const progress = document.createElement('span');
+    progress.textContent = `1 / ${story.parts.length}`;
+    progress.style.cssText = `
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Raleway', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+    `;
+
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'Next →';
+    nextBtn.style.cssText = `
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    `;
+
+    const updateButtons = () => {
+        prevBtn.style.opacity = currentPart === 0 ? '0.5' : '1';
+        prevBtn.style.pointerEvents = currentPart === 0 ? 'none' : 'auto';
+        nextBtn.style.opacity = currentPart === story.parts.length - 1 ? '0.5' : '1';
+        nextBtn.style.pointerEvents = currentPart === story.parts.length - 1 ? 'none' : 'auto';
+        progress.textContent = `${currentPart + 1} / ${story.parts.length}`;
+    };
+
+    prevBtn.onclick = () => {
+        if (currentPart > 0) {
+            currentPart--;
+            storyText.textContent = story.parts[currentPart];
+            updateButtons();
+        }
+    };
+
+    nextBtn.onclick = () => {
+        if (currentPart < story.parts.length - 1) {
+            currentPart++;
+            storyText.textContent = story.parts[currentPart];
+            updateButtons();
+        }
+    };
+
+    navigation.appendChild(prevBtn);
+    navigation.appendChild(progress);
+    navigation.appendChild(nextBtn);
+
+    // Assemble modal
+    modalContent.appendChild(closeBtn);
+    modalContent.appendChild(header);
+    modalContent.appendChild(storyText);
+    modalContent.appendChild(navigation);
+    modal.appendChild(modalContent);
+
+    // Add to page
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    // Close on outside click
+    modal.onclick = (e) => {
+        if (e.target === modal) {
+            document.body.removeChild(modal);
+            document.body.style.overflow = '';
+            // Restore cursor z-index
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            if (cursor) cursor.style.zIndex = '';
+            if (cursorDot) cursorDot.style.zIndex = '';
+        }
+    };
+
+    // Close on escape key
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            document.body.removeChild(modal);
+            document.body.style.overflow = '';
+            // Restore cursor z-index
+            const cursor = document.querySelector('.cursor');
+            const cursorDot = document.querySelector('.cursor-dot');
+            if (cursor) cursor.style.zIndex = '';
+            if (cursorDot) cursorDot.style.zIndex = '';
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    console.log('Modal created and should be visible');
+};
+
+window.closeCharacterStory = () => {
+    const modal = document.getElementById('story-modal');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+};
+
+window.nextStoryPart = () => {
+    const story = window.characterStories[window.currentStoryIndex];
+    const storyText = document.getElementById('story-text');
+    const progressSpan = document.getElementById('story-progress');
+    const nextBtn = document.querySelector('.story-nav-btn:last-child');
+    const prevBtn = document.querySelector('.story-nav-btn:first-child');
+
+    if (window.currentStoryPart < story.parts.length - 1) {
+        window.currentStoryPart++;
+        storyText.textContent = story.parts[window.currentStoryPart];
+        progressSpan.textContent = `${window.currentStoryPart + 1} / ${story.parts.length}`;
+        
+        // Update button states
+        prevBtn.disabled = false;
+        if (window.currentStoryPart === story.parts.length - 1) {
+            nextBtn.disabled = true;
+        }
+    }
+};
+
+window.previousStoryPart = () => {
+    const story = window.characterStories[window.currentStoryIndex];
+    const storyText = document.getElementById('story-text');
+    const progressSpan = document.getElementById('story-progress');
+    const nextBtn = document.querySelector('.story-nav-btn:last-child');
+    const prevBtn = document.querySelector('.story-nav-btn:first-child');
+
+    if (window.currentStoryPart > 0) {
+        window.currentStoryPart--;
+        storyText.textContent = story.parts[window.currentStoryPart];
+        progressSpan.textContent = `${window.currentStoryPart + 1} / ${story.parts.length}`;
+        
+        // Update button states
+        nextBtn.disabled = false;
+        if (window.currentStoryPart === 0) {
+            prevBtn.disabled = true;
+        }
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Performance optimizations
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -259,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'image8.png'
     ];
     
-    let currentImageIndex = 0;
+    window.currentImageIndex = 0;
     let selectedCharacter = null;
     let isTransitioning = false;
     let isDragging = false;
@@ -503,4 +895,19 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeCharacterSelector();
     initializeParticles();
     initializeNavVisibility();
+
+    // Close modal when clicking outside
+    document.addEventListener('click', (e) => {
+        const modal = document.getElementById('story-modal');
+        if (modal && e.target === modal) {
+            window.closeCharacterStory();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            window.closeCharacterStory();
+        }
+    });
 });
