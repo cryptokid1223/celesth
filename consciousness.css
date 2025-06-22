@@ -821,14 +821,27 @@ body {
     }
     
     .character-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
     }
     
     .character-image-container {
-        width: calc(100% - 110px); /* 100% - (2 * arrow width + 2 * gap) */
-        margin: 0 auto;
+        flex: 1 1 0;
+        min-width: 0;
+        margin: 0 1rem;
+        width: auto;
+        height: auto;
+        max-width: 280px;
+    }
+
+    .character-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
     }
     
     .nav-arrow {
@@ -872,11 +885,11 @@ body {
         height: 14px;
     }
     .character-container {
-        gap: 0.8rem;
-        padding: 0 1rem;
+        padding: 0 0.5rem;
     }
     .character-image-container {
-        width: calc(100% - 96px); /* Adjust for smaller arrows */
+        margin: 0 0.5rem;
+        max-width: 70vw;
     }
     .nav-arrow {
         width: 38px;
