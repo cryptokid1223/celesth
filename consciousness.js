@@ -77,6 +77,156 @@ window.characterStories = [
 window.currentStoryIndex = 0;
 window.currentStoryPart = 0;
 
+// Meditation Timer System - Global (moved outside DOMContentLoaded)
+window.timerInterval = null;
+window.totalSeconds = 300;
+window.remainingSeconds = 300;
+window.isRunning = false;
+window.isPaused = false;
+
+window.updateDisplay = function() {
+    const minutesDisplay = document.getElementById('minutes');
+    const secondsDisplay = document.getElementById('seconds');
+    const timerProgress = document.getElementById('timer-progress');
+    
+    if (!minutesDisplay || !secondsDisplay || !timerProgress) return;
+    
+    const minutes = Math.floor(window.remainingSeconds / 60);
+    const seconds = window.remainingSeconds % 60;
+    
+    minutesDisplay.textContent = minutes.toString().padStart(2, '0');
+    secondsDisplay.textContent = seconds.toString().padStart(2, '0');
+    
+    const progress = ((window.totalSeconds - window.remainingSeconds) / window.totalSeconds) * 360;
+    timerProgress.style.background = `conic-gradient(from 0deg, #667eea ${progress}deg, transparent ${progress}deg)`;
+};
+
+window.startTimer = function() {
+    if (!window.isRunning) {
+        window.isRunning = true;
+        window.isPaused = false;
+        
+        const startBtn = document.getElementById('start-timer');
+        const pauseBtn = document.getElementById('pause-timer');
+        const timeCircle = document.querySelector('.time-circle');
+        const meditationMessage = document.getElementById('meditation-message');
+        
+        if (startBtn) startBtn.style.display = 'none';
+        if (pauseBtn) pauseBtn.style.display = 'flex';
+        if (timeCircle) timeCircle.classList.add('running');
+        if (meditationMessage) meditationMessage.textContent = 'Breathe deeply and find your center...';
+        
+        window.timerInterval = setInterval(() => {
+            window.remainingSeconds--;
+            window.updateDisplay();
+            
+            if (window.remainingSeconds <= 0) {
+                window.completeTimer();
+            }
+        }, 1000);
+    }
+};
+
+window.pauseTimer = function() {
+    if (window.isRunning && !window.isPaused) {
+        window.isPaused = true;
+        clearInterval(window.timerInterval);
+        
+        const pauseBtn = document.getElementById('pause-timer');
+        const timeCircle = document.querySelector('.time-circle');
+        const meditationMessage = document.getElementById('meditation-message');
+        
+        if (pauseBtn) pauseBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Resume';
+        if (meditationMessage) meditationMessage.textContent = 'Meditation paused. Take a moment to breathe...';
+        if (timeCircle) timeCircle.classList.remove('running');
+    } else if (window.isPaused) {
+        window.isPaused = false;
+        
+        const pauseBtn = document.getElementById('pause-timer');
+        const timeCircle = document.querySelector('.time-circle');
+        const meditationMessage = document.getElementById('meditation-message');
+        
+        if (pauseBtn) pauseBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>Pause';
+        if (meditationMessage) meditationMessage.textContent = 'Continuing your meditation journey...';
+        if (timeCircle) timeCircle.classList.add('running');
+        
+        window.timerInterval = setInterval(() => {
+            window.remainingSeconds--;
+            window.updateDisplay();
+            
+            if (window.remainingSeconds <= 0) {
+                window.completeTimer();
+            }
+        }, 1000);
+    }
+};
+
+window.resetTimer = function() {
+    clearInterval(window.timerInterval);
+    window.isRunning = false;
+    window.isPaused = false;
+    window.remainingSeconds = window.totalSeconds;
+    
+    const startBtn = document.getElementById('start-timer');
+    const pauseBtn = document.getElementById('pause-timer');
+    const timeCircle = document.querySelector('.time-circle');
+    const meditationMessage = document.getElementById('meditation-message');
+    
+    if (startBtn) startBtn.style.display = 'flex';
+    if (pauseBtn) {
+        pauseBtn.style.display = 'none';
+        pauseBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>Pause';
+    }
+    
+    if (timeCircle) timeCircle.classList.remove('running');
+    if (meditationMessage) meditationMessage.textContent = 'Choose your meditation duration and begin your journey inward.';
+    window.updateDisplay();
+};
+
+window.completeTimer = function() {
+    clearInterval(window.timerInterval);
+    window.isRunning = false;
+    window.isPaused = false;
+    
+    const startBtn = document.getElementById('start-timer');
+    const pauseBtn = document.getElementById('pause-timer');
+    const timeCircle = document.querySelector('.time-circle');
+    const meditationMessage = document.getElementById('meditation-message');
+    
+    if (startBtn) startBtn.style.display = 'flex';
+    if (pauseBtn) pauseBtn.style.display = 'none';
+    if (timeCircle) timeCircle.classList.remove('running');
+    
+    if (meditationMessage) meditationMessage.textContent = 'Meditation complete. Take a moment to honor your practice.';
+    
+    if (timeCircle) {
+        timeCircle.style.animation = 'pulse 1s ease-in-out 3';
+        setTimeout(() => {
+            timeCircle.style.animation = '';
+        }, 3000);
+    }
+    
+    setTimeout(() => {
+        if (meditationMessage) meditationMessage.textContent = 'Your meditation session has ended. Carry this peace with you.';
+    }, 2000);
+};
+
+window.changeDuration = function(minutes) {
+    if (window.isRunning) return;
+    
+    const durationButtons = document.querySelectorAll('.duration-btn');
+    durationButtons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    window.totalSeconds = minutes * 60;
+    window.remainingSeconds = window.totalSeconds;
+    
+    const meditationMessage = document.getElementById('meditation-message');
+    if (meditationMessage) meditationMessage.textContent = `${minutes} minute meditation selected. Ready to begin your journey.`;
+    
+    window.updateDisplay();
+};
+
 // Global functions for story modal (moved outside DOMContentLoaded)
 window.showCharacterStory = () => {
     console.log('showCharacterStory called');
@@ -910,4 +1060,9 @@ document.addEventListener('DOMContentLoaded', () => {
             window.closeCharacterStory();
         }
     });
+
+    // Initialize display
+    setTimeout(() => {
+        window.updateDisplay();
+    }, 100);
 });
