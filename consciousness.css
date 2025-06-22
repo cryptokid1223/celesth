@@ -845,6 +845,13 @@ body {
     
     .nav-arrow {
         flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .nav-arrow svg {
+        width: 20px;
+        height: 20px;
     }
     
     .choose-omi-btn {
@@ -891,13 +898,13 @@ body {
         max-width: 70vw;
     }
     .nav-arrow {
-        width: 38px;
-        height: 38px;
+        width: 34px;
+        height: 34px;
         flex-shrink: 0;
     }
     .nav-arrow svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
     }
     .choose-omi-btn {
         padding: 0.9rem 2rem;
