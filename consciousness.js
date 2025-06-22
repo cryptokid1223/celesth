@@ -11,15 +11,29 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.style.display = 'block';
         cursorDot.style.display = 'block';
 
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        const speed = 0.3; // Increased speed for less lag
+
         document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
-            
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+
+        function animateCursor() {
+            // Smoother animation with reduced lag
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+
+            cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+            cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+
+            requestAnimationFrame(animateCursor);
+        }
+
+        animateCursor();
         
         // Add hover effects for interactive elements
         const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');
