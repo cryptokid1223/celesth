@@ -165,6 +165,64 @@
             </div>
         </div>
 
+        <!-- Quote Generator Section -->
+        <div class="bordered-content">
+            <div class="description-section">
+                <h2 class="section-title-static">Daily Wisdom Generator</h2>
+                <div class="quote-generator-container">
+                    <div class="quote-display">
+                        <div class="quote-card">
+                            <div class="quote-text" id="quote-text">
+                                "Once you master your mind, you master reality itself."
+                            </div>
+                            <div class="quote-author" id="quote-author">
+                                — Ancient Wisdom
+                            </div>
+                        </div>
+                        <div class="quote-decoration">
+                            <div class="quote-symbol">❝</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quote-categories">
+                        <h4>Choose Your Wisdom</h4>
+                        <div class="category-buttons">
+                            <button class="category-btn active" data-category="all" onclick="setCategory('all')">All Wisdom</button>
+                            <button class="category-btn" data-category="consciousness" onclick="setCategory('consciousness')">Consciousness</button>
+                            <button class="category-btn" data-category="love" onclick="setCategory('love')">Love</button>
+                            <button class="category-btn" data-category="will" onclick="setCategory('will')">Will</button>
+                            <button class="category-btn" data-category="transcendence" onclick="setCategory('transcendence')">Transcendence</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quote-controls">
+                        <button class="quote-btn" onclick="generateNewQuote()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            New Wisdom
+                        </button>
+                        <button class="quote-btn" onclick="saveFavoriteQuote()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            Save Favorite
+                        </button>
+                        <button class="quote-btn" onclick="showFavorites()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                            My Favorites
+                        </button>
+                    </div>
+                    
+                    <div class="quote-status">
+                        <p id="quote-message">Discover wisdom that resonates with your soul.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Character Story Modal -->
         <div id="story-modal" class="story-modal">
             <div class="story-modal-content">

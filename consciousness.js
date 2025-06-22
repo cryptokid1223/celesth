@@ -227,6 +227,237 @@ window.changeDuration = function(minutes) {
     window.updateDisplay();
 };
 
+// Quote Generator System - Global
+window.currentCategory = 'all';
+window.favoriteQuotes = [];
+
+window.quotes = {
+    all: [
+        { text: "Once you master your mind, you master reality itself.", author: "Ancient Wisdom" },
+        { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+        { text: "Be the change you wish to see in the world.", author: "Mahatma Gandhi" },
+        { text: "The journey of a thousand miles begins with one step.", author: "Lao Tzu" },
+        { text: "What you think, you become. What you feel, you attract. What you imagine, you create.", author: "Buddha" },
+        { text: "The mind is everything. What you think you become.", author: "Buddha" },
+        { text: "Peace comes from within. Do not seek it without.", author: "Buddha" },
+        { text: "Happiness is not something ready made. It comes from your own actions.", author: "Dalai Lama" },
+        { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" },
+        { text: "If you want others to be happy, practice compassion. If you want to be happy, practice compassion.", author: "Dalai Lama" }
+    ],
+    consciousness: [
+        { text: "Consciousness is the space between experience and reaction—the part of you that watches your life unfold, yet isn't bound by it.", author: "Spiritual Wisdom" },
+        { text: "The moment you become aware of the ego in yourself, that emerging awareness is the arising of consciousness.", author: "Eckhart Tolle" },
+        { text: "Consciousness is not just awareness, but the ability to be aware of awareness itself.", author: "Deepak Chopra" },
+        { text: "The greatest discovery of my generation is that a human being can alter his life by altering his attitudes of mind.", author: "William James" },
+        { text: "Consciousness is the foundation of all existence. Without it, nothing would be known.", author: "Ancient Philosophy" },
+        { text: "The mind is like water. When it's turbulent, it's difficult to see. When it's calm, everything becomes clear.", author: "Prasad Mahes" },
+        { text: "Consciousness is the light that illuminates the darkness of unconsciousness.", author: "Spiritual Teaching" },
+        { text: "To be conscious is to be aware of the present moment without judgment.", author: "Mindfulness Wisdom" },
+        { text: "The highest form of consciousness is the awareness that you are not separate from the universe.", author: "Quantum Wisdom" },
+        { text: "Consciousness is the bridge between the finite and the infinite.", author: "Mystical Wisdom" }
+    ],
+    love: [
+        { text: "Love is not something you find. Love is something that finds you.", author: "Loretta Young" },
+        { text: "The greatest happiness of life is the conviction that we are loved; loved for ourselves, or rather, loved in spite of ourselves.", author: "Victor Hugo" },
+        { text: "Love is composed of a single soul inhabiting two bodies.", author: "Aristotle" },
+        { text: "Where there is love there is life.", author: "Mahatma Gandhi" },
+        { text: "Love is the bridge between you and everything.", author: "Rumi" },
+        { text: "The only thing we never get enough of is love; and the only thing we never give enough of is love.", author: "Henry Miller" },
+        { text: "Love is the master key that opens the gates of happiness.", author: "Oliver Wendell Holmes" },
+        { text: "Love is the flower you've got to let grow.", author: "John Lennon" },
+        { text: "Love is the greatest refreshment in life.", author: "Pablo Picasso" },
+        { text: "Love is the only force capable of transforming an enemy into a friend.", author: "Martin Luther King Jr." }
+    ],
+    will: [
+        { text: "The will to win, the desire to succeed, the urge to reach your full potential... these are the keys that will unlock the door to personal excellence.", author: "Confucius" },
+        { text: "Where there's a will, there's a way.", author: "English Proverb" },
+        { text: "The strongest force in the universe is the human will.", author: "Ancient Wisdom" },
+        { text: "Will is the character in action.", author: "Michel de Montaigne" },
+        { text: "The difference between the impossible and the possible lies in determination.", author: "Tommy Lasorda" },
+        { text: "Will is the key to success. Successful people strive no matter what they feel by applying their will to overcome apathy, doubt or fear.", author: "Dan Millman" },
+        { text: "The human will is stronger than any material force in nature.", author: "Ancient Philosophy" },
+        { text: "Will is the foundation of all achievement.", author: "Spiritual Teaching" },
+        { text: "The power of the will is the greatest force in the universe.", author: "Mystical Wisdom" },
+        { text: "Will is the bridge between dreams and reality.", author: "Modern Wisdom" }
+    ],
+    transcendence: [
+        { text: "Transcendence is the highest state of consciousness, where the individual self dissolves into the universal.", author: "Spiritual Wisdom" },
+        { text: "The goal of life is to transcend the limitations of the ego and realize your true nature.", author: "Ancient Teaching" },
+        { text: "Transcendence is not about escaping reality, but about experiencing it more fully.", author: "Modern Philosophy" },
+        { text: "In transcendence, you become one with everything and nothing at the same time.", author: "Mystical Wisdom" },
+        { text: "The path to transcendence is through surrender, not control.", author: "Spiritual Master" },
+        { text: "Transcendence is the realization that you are not separate from the divine.", author: "Sacred Text" },
+        { text: "To transcend is to go beyond the limitations of the mind and body.", author: "Ancient Wisdom" },
+        { text: "Transcendence is the ultimate freedom from all forms of bondage.", author: "Spiritual Teaching" },
+        { text: "In the state of transcendence, all dualities dissolve into unity.", author: "Mystical Philosophy" },
+        { text: "Transcendence is the doorway to infinite possibilities.", author: "Cosmic Wisdom" }
+    ]
+};
+
+window.generateNewQuote = function() {
+    const quoteCard = document.querySelector('.quote-card');
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const quoteMessage = document.getElementById('quote-message');
+    
+    if (!quoteText || !quoteAuthor) return;
+    
+    // Add fade out effect
+    quoteCard.classList.add('fade-in');
+    
+    // Get quotes for current category
+    const categoryQuotes = window.quotes[window.currentCategory] || window.quotes.all;
+    
+    // Select random quote
+    const randomIndex = Math.floor(Math.random() * categoryQuotes.length);
+    const selectedQuote = categoryQuotes[randomIndex];
+    
+    // Update quote with animation
+    setTimeout(() => {
+        quoteText.textContent = `"${selectedQuote.text}"`;
+        quoteAuthor.textContent = `— ${selectedQuote.author}`;
+        
+        // Update message
+        if (quoteMessage) {
+            quoteMessage.textContent = `New wisdom from ${window.currentCategory} category.`;
+            setTimeout(() => {
+                quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+            }, 3000);
+        }
+        
+        // Remove animation class
+        setTimeout(() => {
+            quoteCard.classList.remove('fade-in');
+        }, 100);
+    }, 400);
+};
+
+window.setCategory = function(category) {
+    window.currentCategory = category;
+    
+    // Update active button
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    categoryButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-category') === category) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Generate new quote for category
+    window.generateNewQuote();
+    
+    // Update message
+    const quoteMessage = document.getElementById('quote-message');
+    if (quoteMessage) {
+        quoteMessage.textContent = `Exploring ${category} wisdom.`;
+        setTimeout(() => {
+            quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+        }, 2000);
+    }
+};
+
+window.saveFavoriteQuote = function() {
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    
+    if (!quoteText || !quoteAuthor) return;
+    
+    const currentQuote = {
+        text: quoteText.textContent.replace(/^"|"$/g, ''),
+        author: quoteAuthor.textContent.replace(/^— /, ''),
+        category: window.currentCategory,
+        timestamp: Date.now()
+    };
+    
+    // Check if already saved
+    const isAlreadySaved = window.favoriteQuotes.some(fav => 
+        fav.text === currentQuote.text && fav.author === currentQuote.author
+    );
+    
+    if (isAlreadySaved) {
+        // Remove from favorites
+        window.favoriteQuotes = window.favoriteQuotes.filter(fav => 
+            !(fav.text === currentQuote.text && fav.author === currentQuote.author)
+        );
+        
+        const quoteMessage = document.getElementById('quote-message');
+        if (quoteMessage) {
+            quoteMessage.textContent = 'Removed from favorites.';
+            setTimeout(() => {
+                quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+            }, 2000);
+        }
+    } else {
+        // Add to favorites
+        window.favoriteQuotes.push(currentQuote);
+        
+        const quoteMessage = document.getElementById('quote-message');
+        if (quoteMessage) {
+            quoteMessage.textContent = 'Added to favorites!';
+            setTimeout(() => {
+                quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+            }, 2000);
+        }
+    }
+    
+    // Save to localStorage
+    try {
+        localStorage.setItem('favoriteQuotes', JSON.stringify(window.favoriteQuotes));
+    } catch (error) {
+        console.log('Could not save favorite quote');
+    }
+};
+
+window.showFavorites = function() {
+    const quoteText = document.getElementById('quote-text');
+    const quoteAuthor = document.getElementById('quote-author');
+    const quoteMessage = document.getElementById('quote-message');
+    
+    if (!quoteText || !quoteAuthor || !quoteMessage) return;
+    
+    if (window.favoriteQuotes.length === 0) {
+        quoteMessage.textContent = 'No favorite quotes yet. Save some wisdom first!';
+        setTimeout(() => {
+            quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+        }, 3000);
+        return;
+    }
+    
+    // Show random favorite quote
+    const randomIndex = Math.floor(Math.random() * window.favoriteQuotes.length);
+    const favoriteQuote = window.favoriteQuotes[randomIndex];
+    
+    const quoteCard = document.querySelector('.quote-card');
+    quoteCard.classList.add('fade-in');
+    
+    setTimeout(() => {
+        quoteText.textContent = `"${favoriteQuote.text}"`;
+        quoteAuthor.textContent = `— ${favoriteQuote.author}`;
+        
+        quoteMessage.textContent = `Showing favorite from ${favoriteQuote.category} category.`;
+        setTimeout(() => {
+            quoteMessage.textContent = 'Discover wisdom that resonates with your soul.';
+        }, 3000);
+        
+        setTimeout(() => {
+            quoteCard.classList.remove('fade-in');
+        }, 100);
+    }, 400);
+};
+
+window.loadFavoriteQuotes = function() {
+    try {
+        const savedQuotes = localStorage.getItem('favoriteQuotes');
+        if (savedQuotes) {
+            window.favoriteQuotes = JSON.parse(savedQuotes);
+        }
+    } catch (error) {
+        console.log('Could not load favorite quotes');
+        window.favoriteQuotes = [];
+    }
+};
+
 // Global functions for story modal (moved outside DOMContentLoaded)
 window.showCharacterStory = () => {
     console.log('showCharacterStory called');
@@ -1065,4 +1296,10 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         window.updateDisplay();
     }, 100);
+
+    // Initialize quote generator
+    setTimeout(() => {
+        window.loadFavoriteQuotes();
+        window.generateNewQuote();
+    }, 300);
 });
