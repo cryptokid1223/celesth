@@ -823,16 +823,15 @@ body {
     .character-container {
         display: flex;
         align-items: center;
-        justify-content: space-between;
         width: 100%;
         padding: 0 1rem;
         box-sizing: border-box;
     }
     
     .character-image-container {
-        flex: 1 1 0;
-        min-width: 0;
+        flex-grow: 1;
         margin: 0 1rem;
+        min-width: 0;
         width: auto;
         height: auto;
         max-width: 280px;
