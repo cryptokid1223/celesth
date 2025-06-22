@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursorDot = document.querySelector('.cursor-dot');
     
     if (!isMobile && cursor && cursorDot) {
+        cursor.style.display = 'block';
+        cursorDot.style.display = 'block';
+
         let mouseX = 0;
         let mouseY = 0;
         let cursorX = 0;
