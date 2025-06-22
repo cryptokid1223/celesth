@@ -15,25 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let mouseY = 0;
         let cursorX = 0;
         let cursorY = 0;
-        const speed = 0.3; // Increased speed for less lag
-
+        
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
-
-        function animateCursor() {
-            // Smoother animation with reduced lag
-            cursorX += (mouseX - cursorX) * speed;
-            cursorY += (mouseY - cursorY) * speed;
-
-            cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-            cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-
-            requestAnimationFrame(animateCursor);
+        
+        // Smooth cursor animation
+        function updateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            
+            requestAnimationFrame(updateCursor);
         }
-
-        animateCursor();
+        updateCursor();
         
         // Add hover effects for interactive elements
         const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');

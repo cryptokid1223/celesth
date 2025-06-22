@@ -36,13 +36,12 @@ body {
 .cursor-dot {
     display: none; /* Hidden by default, enabled by JS on desktop */
     position: fixed;
-    top: 0;
-    left: 0;
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
     transition: all 0.1s ease;
     will-change: transform;
+    transform: translateZ(0);
 }
 .cursor {
     width: 25px;
