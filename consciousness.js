@@ -1,3 +1,12 @@
+// Performance optimizations and global variables
+window.performanceCache = {
+    lastScrollTime: 0,
+    lastMouseMoveTime: 0,
+    animationFrameId: null,
+    isScrolling: false,
+    isMouseMoving: false
+};
+
 // Character Stories System - Global (moved outside DOMContentLoaded)
 window.characterStories = [
     {
@@ -84,10 +93,18 @@ window.remainingSeconds = 300;
 window.isRunning = false;
 window.isPaused = false;
 
+// Cache DOM elements for better performance
+window.domCache = {};
+
 window.updateDisplay = function() {
-    const minutesDisplay = document.getElementById('minutes');
-    const secondsDisplay = document.getElementById('seconds');
-    const timerProgress = document.getElementById('timer-progress');
+    // Use cached elements or query once
+    if (!window.domCache.minutesDisplay) {
+        window.domCache.minutesDisplay = document.getElementById('minutes');
+        window.domCache.secondsDisplay = document.getElementById('seconds');
+        window.domCache.timerProgress = document.getElementById('timer-progress');
+    }
+    
+    const { minutesDisplay, secondsDisplay, timerProgress } = window.domCache;
     
     if (!minutesDisplay || !secondsDisplay || !timerProgress) return;
     
@@ -106,10 +123,13 @@ window.startTimer = function() {
         window.isRunning = true;
         window.isPaused = false;
         
-        const startBtn = document.getElementById('start-timer');
-        const pauseBtn = document.getElementById('pause-timer');
-        const timeCircle = document.querySelector('.time-circle');
-        const meditationMessage = document.getElementById('meditation-message');
+        // Cache elements
+        if (!window.domCache.startBtn) window.domCache.startBtn = document.getElementById('start-timer');
+        if (!window.domCache.pauseBtn) window.domCache.pauseBtn = document.getElementById('pause-timer');
+        if (!window.domCache.timeCircle) window.domCache.timeCircle = document.querySelector('.time-circle');
+        if (!window.domCache.meditationMessage) window.domCache.meditationMessage = document.getElementById('meditation-message');
+        
+        const { startBtn, pauseBtn, timeCircle, meditationMessage } = window.domCache;
         
         if (startBtn) startBtn.style.display = 'none';
         if (pauseBtn) pauseBtn.style.display = 'flex';
@@ -132,9 +152,7 @@ window.pauseTimer = function() {
         window.isPaused = true;
         clearInterval(window.timerInterval);
         
-        const pauseBtn = document.getElementById('pause-timer');
-        const timeCircle = document.querySelector('.time-circle');
-        const meditationMessage = document.getElementById('meditation-message');
+        const { pauseBtn, timeCircle, meditationMessage } = window.domCache;
         
         if (pauseBtn) pauseBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Resume';
         if (meditationMessage) meditationMessage.textContent = 'Meditation paused. Take a moment to breathe...';
@@ -142,9 +160,7 @@ window.pauseTimer = function() {
     } else if (window.isPaused) {
         window.isPaused = false;
         
-        const pauseBtn = document.getElementById('pause-timer');
-        const timeCircle = document.querySelector('.time-circle');
-        const meditationMessage = document.getElementById('meditation-message');
+        const { pauseBtn, timeCircle, meditationMessage } = window.domCache;
         
         if (pauseBtn) pauseBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>Pause';
         if (meditationMessage) meditationMessage.textContent = 'Continuing your meditation journey...';
@@ -167,10 +183,7 @@ window.resetTimer = function() {
     window.isPaused = false;
     window.remainingSeconds = window.totalSeconds;
     
-    const startBtn = document.getElementById('start-timer');
-    const pauseBtn = document.getElementById('pause-timer');
-    const timeCircle = document.querySelector('.time-circle');
-    const meditationMessage = document.getElementById('meditation-message');
+    const { startBtn, pauseBtn, timeCircle, meditationMessage } = window.domCache;
     
     if (startBtn) startBtn.style.display = 'flex';
     if (pauseBtn) {
@@ -188,10 +201,7 @@ window.completeTimer = function() {
     window.isRunning = false;
     window.isPaused = false;
     
-    const startBtn = document.getElementById('start-timer');
-    const pauseBtn = document.getElementById('pause-timer');
-    const timeCircle = document.querySelector('.time-circle');
-    const meditationMessage = document.getElementById('meditation-message');
+    const { startBtn, pauseBtn, timeCircle, meditationMessage } = window.domCache;
     
     if (startBtn) startBtn.style.display = 'flex';
     if (pauseBtn) pauseBtn.style.display = 'none';
@@ -221,7 +231,7 @@ window.changeDuration = function(minutes) {
     window.totalSeconds = minutes * 60;
     window.remainingSeconds = window.totalSeconds;
     
-    const meditationMessage = document.getElementById('meditation-message');
+    const { meditationMessage } = window.domCache;
     if (meditationMessage) meditationMessage.textContent = `${minutes} minute meditation selected. Ready to begin your journey.`;
     
     window.updateDisplay();
@@ -294,11 +304,17 @@ window.quotes = {
     ]
 };
 
+// Cache quote elements
+window.quoteCache = {};
+
 window.generateNewQuote = function() {
-    const quoteCard = document.querySelector('.quote-card');
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
-    const quoteMessage = document.getElementById('quote-message');
+    // Cache elements
+    if (!window.quoteCache.quoteCard) window.quoteCache.quoteCard = document.querySelector('.quote-card');
+    if (!window.quoteCache.quoteText) window.quoteCache.quoteText = document.getElementById('quote-text');
+    if (!window.quoteCache.quoteAuthor) window.quoteCache.quoteAuthor = document.getElementById('quote-author');
+    if (!window.quoteCache.quoteMessage) window.quoteCache.quoteMessage = document.getElementById('quote-message');
+    
+    const { quoteCard, quoteText, quoteAuthor, quoteMessage } = window.quoteCache;
     
     if (!quoteText || !quoteAuthor) return;
     
@@ -348,7 +364,7 @@ window.setCategory = function(category) {
     window.generateNewQuote();
     
     // Update message
-    const quoteMessage = document.getElementById('quote-message');
+    const { quoteMessage } = window.quoteCache;
     if (quoteMessage) {
         quoteMessage.textContent = `Exploring ${category} wisdom.`;
         setTimeout(() => {
@@ -358,8 +374,7 @@ window.setCategory = function(category) {
 };
 
 window.saveFavoriteQuote = function() {
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
+    const { quoteText, quoteAuthor, quoteMessage } = window.quoteCache;
     
     if (!quoteText || !quoteAuthor) return;
     
@@ -381,7 +396,6 @@ window.saveFavoriteQuote = function() {
             !(fav.text === currentQuote.text && fav.author === currentQuote.author)
         );
         
-        const quoteMessage = document.getElementById('quote-message');
         if (quoteMessage) {
             quoteMessage.textContent = 'Removed from favorites.';
             setTimeout(() => {
@@ -392,7 +406,6 @@ window.saveFavoriteQuote = function() {
         // Add to favorites
         window.favoriteQuotes.push(currentQuote);
         
-        const quoteMessage = document.getElementById('quote-message');
         if (quoteMessage) {
             quoteMessage.textContent = 'Added to favorites!';
             setTimeout(() => {
@@ -410,9 +423,7 @@ window.saveFavoriteQuote = function() {
 };
 
 window.showFavorites = function() {
-    const quoteText = document.getElementById('quote-text');
-    const quoteAuthor = document.getElementById('quote-author');
-    const quoteMessage = document.getElementById('quote-message');
+    const { quoteText, quoteAuthor, quoteMessage } = window.quoteCache;
     
     if (!quoteText || !quoteAuthor || !quoteMessage) return;
     
@@ -428,7 +439,7 @@ window.showFavorites = function() {
     const randomIndex = Math.floor(Math.random() * window.favoriteQuotes.length);
     const favoriteQuote = window.favoriteQuotes[randomIndex];
     
-    const quoteCard = document.querySelector('.quote-card');
+    const { quoteCard } = window.quoteCache;
     quoteCard.classList.add('fade-in');
     
     setTimeout(() => {
@@ -771,83 +782,173 @@ window.previousStoryPart = () => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Performance optimizations
+document.addEventListener('DOMContentLoaded', function() {
+    // Performance detection
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isLowEndDevice = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
     
-    // Custom Cursor System - Fixed
-    const cursor = document.querySelector('.cursor');
-    const cursorDot = document.querySelector('.cursor-dot');
-    
-    if (!isMobile && cursor && cursorDot) {
-        cursor.style.display = 'block';
-        cursorDot.style.display = 'block';
+    // Adjust performance settings based on device capabilities
+    const performanceSettings = {
+        particleCount: isLowEndDevice ? 2 : (isMobile ? 3 : 5),
+        particleInterval: isLowEndDevice ? 4000 : (isMobile ? 3000 : 2000),
+        dotCount: isLowEndDevice ? 200 : (isMobile ? 400 : 600),
+        mouseThrottle: isLowEndDevice ? 50 : (isMobile ? 32 : 16),
+        scrollThrottle: isLowEndDevice ? 100 : 32
+    };
 
-        let mouseX = 0;
-        let mouseY = 0;
-        let cursorX = 0;
-        let cursorY = 0;
+    // Character selector variables
+    let currentImageIndex = 0;
+    let selectedCharacter = null;
+    let isTransitioning = false;
+    let currentRotationX = 0;
+    let currentRotationY = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
 
-        const updatePosition = (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        };
+    const characterImages = ['image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png', 'image6.png', 'image7.png', 'image8.png'];
 
-        const initCursor = (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-
-            cursor.style.opacity = '1';
-            cursorDot.style.opacity = '1';
-
-            // Start the animation loop
-            updateCursor();
-
-            // Switch to the regular update function
-            document.removeEventListener('mousemove', initCursor);
-            document.addEventListener('mousemove', updatePosition);
-        };
+    // Optimized character story modal functions
+    window.openCharacterStory = function() {
+        const modal = document.getElementById('story-modal');
+        const storyTitle = document.getElementById('story-title');
+        const storyCharacterImg = document.getElementById('story-character-img');
+        const storyText = document.getElementById('story-text');
+        const prevBtn = document.getElementById('prev-story-btn');
+        const nextBtn = document.getElementById('next-story-btn');
+        const progressBar = document.getElementById('story-progress');
         
-        document.addEventListener('mousemove', initCursor);
+        if (!modal || !storyTitle || !storyCharacterImg || !storyText) return;
+        
+        const currentStory = window.characterStories[window.currentStoryIndex];
+        
+        storyTitle.textContent = currentStory.name;
+        storyCharacterImg.src = currentStory.image;
+        storyText.textContent = currentStory.parts[window.currentStoryPart];
+        
+        // Update navigation
+        prevBtn.disabled = window.currentStoryPart === 0;
+        nextBtn.disabled = window.currentStoryPart === currentStory.parts.length - 1;
+        
+        // Update progress
+        const progress = ((window.currentStoryPart + 1) / currentStory.parts.length) * 100;
+        progressBar.style.width = progress + '%';
+        
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    };
 
-        // Smooth cursor animation
-        function updateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
-            
-            requestAnimationFrame(updateCursor);
+    window.closeCharacterStory = function() {
+        const modal = document.getElementById('story-modal');
+        if (modal) {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
         }
+    };
+
+    window.nextStoryPart = function() {
+        const currentStory = window.characterStories[window.currentStoryIndex];
+        if (window.currentStoryPart < currentStory.parts.length - 1) {
+            window.currentStoryPart++;
+            window.openCharacterStory();
+        }
+    };
+
+    window.prevStoryPart = function() {
+        if (window.currentStoryPart > 0) {
+            window.currentStoryPart--;
+            window.openCharacterStory();
+        }
+    };
+
+    window.nextStory = function() {
+        if (window.currentStoryIndex < window.characterStories.length - 1) {
+            window.currentStoryIndex++;
+            window.currentStoryPart = 0;
+            window.openCharacterStory();
+        }
+    };
+
+    window.prevStory = function() {
+        if (window.currentStoryIndex > 0) {
+            window.currentStoryIndex--;
+            window.currentStoryPart = 0;
+            window.openCharacterStory();
+        }
+    };
+
+    // Optimized cursor system - only on desktop and if motion is preferred
+    if (!isMobile && !prefersReducedMotion && !isLowEndDevice) {
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
         
-        // Add hover effects for interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('hover');
-                cursorDot.classList.add('hover');
+        if (cursor && cursorDot) {
+            let mouseX = 0;
+            let mouseY = 0;
+            let cursorX = 0;
+            let cursorY = 0;
+            
+            const updatePosition = ultraThrottle((e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            }, performanceSettings.mouseThrottle);
+            
+            const initCursor = (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cursorX = e.clientX;
+                cursorY = e.clientY;
+
+                cursor.style.opacity = '1';
+                cursorDot.style.opacity = '1';
+
+                // Start the animation loop
+                updateCursor();
+
+                // Switch to the regular update function
+                document.removeEventListener('mousemove', initCursor);
+                document.addEventListener('mousemove', updatePosition, { passive: true });
+            };
+            
+            document.addEventListener('mousemove', initCursor);
+
+            // Optimized cursor animation with requestAnimationFrame
+            function updateCursor() {
+                cursorX += (mouseX - cursorX) * 0.1;
+                cursorY += (mouseY - cursorY) * 0.1;
+                
+                cursor.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+                cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+                
+                window.performanceCache.animationFrameId = requestAnimationFrame(updateCursor);
+            }
+            
+            // Add hover effects for interactive elements
+            const interactiveElements = document.querySelectorAll('a, button, .character-image, .nav-arrow, .choose-omi-btn');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hover');
+                    cursorDot.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hover');
+                    cursorDot.classList.remove('hover');
+                });
             });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('hover');
-                cursorDot.classList.remove('hover');
-            });
-        });
+        }
     } else {
         // Ensure cursor is explicitly hidden if not on desktop
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
         if (cursor) cursor.style.display = 'none';
         if (cursorDot) cursorDot.style.display = 'none';
     }
     
-    // Particle System
+    // Optimized Particle System
     const particlesContainer = document.querySelector('.particles');
     const createParticle = () => {
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || isLowEndDevice) return;
         
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -857,24 +958,26 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesContainer.appendChild(particle);
         
         setTimeout(() => {
-            particle.remove();
+            if (particle.parentNode) {
+                particle.remove();
+            }
         }, 10000);
     };
     
-    // Create particles periodically
-    if (!isMobile && !prefersReducedMotion) {
-        setInterval(createParticle, 2000);
+    // Create particles periodically with reduced frequency on low-end devices
+    if (!isMobile && !prefersReducedMotion && !isLowEndDevice) {
+        setInterval(createParticle, performanceSettings.particleInterval);
         // Create initial particles
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < performanceSettings.particleCount; i++) {
             setTimeout(createParticle, i * 400);
         }
     }
     
-    // Reduced dot grid for better performance
+    // Optimized dot grid - much fewer dots for better performance
     const dotGrid = document.querySelector('.dot-grid');
-    const numDots = isMobile ? 400 : 900; // Much fewer dots for better performance
+    const numDots = performanceSettings.dotCount;
     
-    // Create dots more efficiently
+    // Create dots more efficiently using DocumentFragment
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < numDots; i++) {
         const dot = document.createElement('div');
@@ -884,7 +987,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dotGrid.appendChild(fragment);
 
     // Ultra-optimized throttle function
-    function ultraThrottle(func, limit = 16) { // 60fps = 16ms
+    function ultraThrottle(func, limit = 16) {
         let inThrottle;
         return function(...args) {
             if (!inThrottle) {
@@ -896,21 +999,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Optimized mouse effect - only on desktop and if motion is preferred
-    if (!isMobile && !prefersReducedMotion) {
+    if (!isMobile && !prefersReducedMotion && !isLowEndDevice) {
         const handleMouseMove = ultraThrottle((e) => {
             const { clientX, clientY } = e;
             const { innerWidth, innerHeight } = window;
             
-            const xPos = (clientX / innerWidth - 0.5) * 15; // Reduced movement
-            const yPos = (clientY / innerHeight - 0.5) * 15;
+            const xPos = (clientX / innerWidth - 0.5) * 10; // Reduced movement for better performance
+            const yPos = (clientY / innerHeight - 0.5) * 10;
             
             dotGrid.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-        }, 32); // 30fps instead of 60fps for better performance
+        }, performanceSettings.mouseThrottle);
         
         document.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
 
-    // Audio controls with better performance
+    // Optimized audio controls
     const audio = document.getElementById('background-audio');
     const playPauseBtn = document.getElementById('play-pause-btn');
 
@@ -934,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Simplified typing effect with better performance
+    // Optimized typing effect
     function typeWriter(element, text, speed = 80) {
         if (!element || !text) return;
         
@@ -972,7 +1075,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initTypingEffects();
     }
 
-    // Optimized scroll handling for navigation
+    // Optimized scroll handling for navigation with better throttling
     const nav = document.querySelector('.top-right-nav');
     let lastScrollY = window.scrollY;
     let isTicking = false;
@@ -992,174 +1095,87 @@ document.addEventListener('DOMContentLoaded', () => {
         isTicking = false;
     };
 
-    const onScroll = () => {
+    const onScroll = ultraThrottle(() => {
         if (!isTicking) {
             window.requestAnimationFrame(handleScroll);
             isTicking = true;
         }
-    };
+    }, performanceSettings.scrollThrottle);
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true });
 
-    // Simplified navigation effects
-    const navLinks = document.querySelectorAll('.top-right-nav a');
-    navLinks.forEach(link => {
-        if (!isMobile) {
-            link.addEventListener('mouseenter', () => {
-                link.style.transform = 'translate3d(0, -2px, 0)';
-            });
-            
-            link.addEventListener('mouseleave', () => {
-                link.style.transform = 'translate3d(0, 0, 0)';
-            });
-        }
-        
-        link.addEventListener('click', function() {
-            navLinks.forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
+    // Optimized character selector
+    const initializeCharacterSelector = () => {
+        const characterImage = document.getElementById('character-image');
+        if (!characterImage) return;
 
-    // Character Selection System - Improved 3D Rotation
-    const characterImages = [
-        'image1.png',
-        'image2.png', 
-        'image3.png',
-        'image4.png',
-        'image5.png',
-        'image6.png',
-        'image7.png',
-        'image8.png'
-    ];
-    
-    window.currentImageIndex = 0;
-    let selectedCharacter = null;
-    let isTransitioning = false;
-    let isDragging = false;
-    let startX = 0;
-    let startY = 0;
-    let currentRotationX = 0;
-    let currentRotationY = 0;
-    
-    // Preload images more efficiently
-    const imageCache = new Map();
-    characterImages.forEach((imageSrc) => {
-        const img = new Image();
-        img.src = imageSrc;
-        img.onload = () => imageCache.set(imageSrc, img);
-        img.onerror = () => {};
-    });
-    
-    // Improved 3D Rotation for Character Image
-    const characterImage = document.getElementById('character-image');
-    const characterContainer = document.querySelector('.character-image-container');
-    
-    if (characterImage && characterContainer && !isMobile) {
-        let isHovering = false;
-        let animationId;
-        
-        // Mouse enter/leave for hover detection
-        characterContainer.addEventListener('mouseenter', () => {
-            isHovering = true;
-        });
-        
-        characterContainer.addEventListener('mouseleave', () => {
-            isHovering = false;
-            // Reset rotation when leaving
-            currentRotationX = 0;
-            currentRotationY = 0;
-            characterImage.style.transform = `translateZ(0) rotateX(0deg) rotateY(0deg)`;
-        });
-        
-        // Mouse move for rotation (only when hovering)
-        characterContainer.addEventListener('mousemove', (e) => {
-            if (!isHovering) return;
-            
-            const rect = characterContainer.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const mouseX = e.clientX - centerX;
-            const mouseY = e.clientY - centerY;
-            
-            // Calculate rotation based on mouse position
-            currentRotationY = (mouseX / (rect.width / 2)) * 20; // Max 20 degrees
-            currentRotationX = -(mouseY / (rect.height / 2)) * 15; // Max 15 degrees
-            
-            characterImage.style.transform = `translateZ(0) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-        });
-        
-        // Mouse drag for manual rotation
-        characterImage.addEventListener('mousedown', (e) => {
-            if (!isHovering) return;
-            
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            characterImage.style.cursor = 'grabbing';
-        });
-        
-        document.addEventListener('mousemove', (e) => {
-            if (!isDragging || !isHovering) return;
-            
-            const deltaX = e.clientX - startX;
-            const deltaY = e.clientY - startY;
-            
-            currentRotationY += deltaX * 0.3;
-            currentRotationX -= deltaY * 0.2;
-            
-            // Limit rotation
-            currentRotationY = Math.max(-45, Math.min(45, currentRotationY));
-            currentRotationX = Math.max(-30, Math.min(30, currentRotationX));
-            
-            characterImage.style.transform = `translateZ(0) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-            
-            startX = e.clientX;
-            startY = e.clientY;
-        });
-        
-        document.addEventListener('mouseup', () => {
-            if (isDragging) {
-                isDragging = false;
-                characterImage.style.cursor = 'grab';
-            }
-        });
-        
-        // Touch support for mobile
-        characterImage.addEventListener('touchstart', (e) => {
-            if (isMobile) {
+        // Touch support for mobile with better performance
+        if (isMobile) {
+            characterImage.addEventListener('touchstart', (e) => {
                 isDragging = true;
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
-            }
-        });
-        
-        document.addEventListener('touchmove', (e) => {
-            if (!isDragging || !isMobile) return;
-            e.preventDefault();
+            });
             
-            const deltaX = e.touches[0].clientX - startX;
-            const deltaY = e.touches[0].clientY - startY;
+            document.addEventListener('touchmove', ultraThrottle((e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                const deltaX = e.touches[0].clientX - startX;
+                const deltaY = e.touches[0].clientY - startY;
+                
+                currentRotationY += deltaX * 0.2;
+                currentRotationX -= deltaY * 0.15;
+                
+                // Limit rotation
+                currentRotationY = Math.max(-45, Math.min(45, currentRotationY));
+                currentRotationX = Math.max(-30, Math.min(30, currentRotationX));
+                
+                characterImage.style.transform = `translate3d(0, 0, 0) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
+                
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }, 16), { passive: false });
             
-            currentRotationY += deltaX * 0.2;
-            currentRotationX -= deltaY * 0.15;
-            
-            // Limit rotation
-            currentRotationY = Math.max(-45, Math.min(45, currentRotationY));
-            currentRotationX = Math.max(-30, Math.min(30, currentRotationX));
-            
-            characterImage.style.transform = `translateZ(0) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
-            
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-        });
-        
-        document.addEventListener('touchend', () => {
-            if (isDragging) {
+            document.addEventListener('touchend', () => {
                 isDragging = false;
-            }
-        });
-    }
+            });
+        } else {
+            // Desktop mouse support
+            characterImage.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                characterImage.style.cursor = 'grabbing';
+            });
+            
+            document.addEventListener('mousemove', ultraThrottle((e) => {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                currentRotationY += deltaX * 0.3;
+                currentRotationX -= deltaY * 0.2;
+                
+                // Limit rotation
+                currentRotationY = Math.max(-45, Math.min(45, currentRotationY));
+                currentRotationX = Math.max(-30, Math.min(30, currentRotationX));
+                
+                characterImage.style.transform = `translate3d(0, 0, 0) rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg)`;
+                
+                startX = e.clientX;
+                startY = e.clientY;
+            }, 16), { passive: true });
+            
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    characterImage.style.cursor = 'grab';
+                }
+            });
+        }
+    };
     
     // Optimized image switching
     const switchImage = (newIndex) => {
@@ -1182,7 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             characterImage.src = newImageSrc;
             characterImage.style.opacity = '1';
-            characterImage.style.transform = 'translateZ(0) rotateX(0deg) rotateY(0deg)';
+            characterImage.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
             isTransitioning = false;
         }, 150);
     };
@@ -1210,9 +1226,9 @@ document.addEventListener('DOMContentLoaded', () => {
             chooseBtn.style.boxShadow = '0 0 25px rgba(0, 255, 136, 0.7)';
             chooseBtn.style.color = '#00ff88';
             
-            // Add particle explosion effect
-            if (!isMobile && !prefersReducedMotion) {
-                for (let i = 0; i < 10; i++) {
+            // Add particle explosion effect only on capable devices
+            if (!isMobile && !prefersReducedMotion && !isLowEndDevice) {
+                for (let i = 0; i < 5; i++) {
                     setTimeout(() => createParticle(), i * 100);
                 }
             }
@@ -1269,13 +1285,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(link);
     });
 
-    // Initialize other components
-    initializeDotGrid();
-    initializeCursor();
-    initializeAudio();
+    // Initialize components
     initializeCharacterSelector();
-    initializeParticles();
-    initializeNavVisibility();
 
     // Close modal when clicking outside
     document.addEventListener('click', (e) => {
@@ -1302,4 +1313,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.loadFavoriteQuotes();
         window.generateNewQuote();
     }, 300);
+    
+    // Cleanup function for performance
+    window.addEventListener('beforeunload', () => {
+        if (window.performanceCache.animationFrameId) {
+            cancelAnimationFrame(window.performanceCache.animationFrameId);
+        }
+    });
 });
