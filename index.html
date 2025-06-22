@@ -17,6 +17,14 @@
     <link rel="preload" href="consciousness.css" as="style">
     <link rel="preload" href="consciousness.js" as="script">
     
+    <!-- Preload character images for smooth navigation -->
+    <link rel="preload" href="image1.png" as="image">
+    <link rel="preload" href="image2.png" as="image">
+    <link rel="preload" href="image3.png" as="image">
+    <link rel="preload" href="image4.png" as="image">
+    <link rel="preload" href="image5.png" as="image">
+    <link rel="preload" href="image6.png" as="image">
+    
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -51,7 +59,7 @@
         <div class="consciousness-container">
             <h1 class="consciousness-title">Consciousness</h1>
             <div class="audio-controls">
-                <audio id="background-audio" src="resonanceaudio.mp3" loop></audio>
+                <audio id="background-audio" src="resonanceaudio.mp3" loop preload="metadata"></audio>
                 <button id="play-pause-btn" class="play"></button>
             </div>
             <p class="quote">"Once you master your mind, you master reality itself."</p>
@@ -69,6 +77,29 @@
             <div class="description-section">
                 <h2 class="section-title-static">What is the purpose of this project?</h2>
                 <p class="description-text">This project introduces four meme coins, each representing a core spiritual characteristic of life: Consciousness, Love, Will, and Transcendence. Each coin will have its own dedicated page and purpose-driven mission. The first release will be Consciousness, followed by the gradual unlocking of the remaining coins and their pages.<br><br>This is not a profit-driven initiative — all funds I personally receive from each coin launch will be donated to a related charity, chosen by the community through a holder vote. Each charity will reflect the essence of its corresponding trait. This project is simply a creative concept to raise money and give deeper meaning to meme culture.</p>
+            </div>
+        </div>
+        <div class="bordered-content">
+            <div class="description-section">
+                <h2 class="section-title-static">Choose Your Omi</h2>
+                <div class="character-selector">
+                    <div class="character-container">
+                        <button class="nav-arrow nav-left" onclick="prevImage()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                            </svg>
+                        </button>
+                        <div class="character-image-container">
+                            <img id="character-image" src="image1.png" alt="Character" class="character-image" loading="eager">
+                        </div>
+                        <button class="nav-arrow nav-right" onclick="nextImage()">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="choose-omi-btn" class="choose-omi-btn" onclick="chooseOmi()">Choose Omi</button>
+                </div>
             </div>
         </div>
         <div class="bordered-content">

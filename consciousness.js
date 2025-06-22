@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             playPauseBtn.classList.remove('play');
                             playPauseBtn.classList.add('pause');
                         })
-                        .catch(e => console.log('Audio play failed:', e));
+                        .catch(() => {}); // Silent error handling
                 }
             } else {
                 audio.pause();
@@ -98,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optimized scroll handling with RAF
     const nav = document.querySelector('.top-right-nav');
-    let scrollTicking = false;
 
     const handleScroll = rafThrottle(() => {
         if (window.scrollY > 50) {
@@ -124,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optimized click effects
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function() {
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
         });
@@ -133,4 +132,129 @@ document.addEventListener('DOMContentLoaded', () => {
     // Preload critical resources
     const preloadImage = new Image();
     preloadImage.src = 'backgroundimage.webp';
+
+    // Character Selection System - Optimized
+    const characterImages = [
+        'image1.png',
+        'image2.png', 
+        'image3.png',
+        'image4.png',
+        'image5.png',
+        'image6.png'
+    ];
+    
+    let currentImageIndex = 0;
+    let selectedCharacter = null;
+    let imagesLoaded = 0;
+    
+    // Optimized image preloading with progress tracking
+    const imageCache = new Map();
+    characterImages.forEach((imageSrc, index) => {
+        const img = new Image();
+        img.src = imageSrc;
+        img.onload = () => {
+            imageCache.set(imageSrc, img);
+            imagesLoaded++;
+        };
+        img.onerror = () => {
+            // Silent error handling for missing images
+        };
+    });
+    
+    // Optimized image navigation functions
+    const switchImage = (newIndex) => {
+        const characterImage = document.getElementById('character-image');
+        if (!characterImage) return;
+        
+        characterImage.classList.add('fade-out');
+        
+        setTimeout(() => {
+            currentImageIndex = newIndex;
+            const newImageSrc = characterImages[currentImageIndex];
+            characterImage.src = newImageSrc;
+            characterImage.classList.remove('fade-out');
+            characterImage.classList.add('fade-in');
+            
+            setTimeout(() => {
+                characterImage.classList.remove('fade-in');
+            }, 300);
+        }, 150);
+    };
+    
+    // Make functions globally available - optimized
+    window.nextImage = () => {
+        const newIndex = (currentImageIndex + 1) % characterImages.length;
+        switchImage(newIndex);
+    };
+    
+    window.prevImage = () => {
+        const newIndex = currentImageIndex === 0 ? characterImages.length - 1 : currentImageIndex - 1;
+        switchImage(newIndex);
+    };
+    
+    window.chooseOmi = () => {
+        const selectedImage = characterImages[currentImageIndex];
+        selectedCharacter = selectedImage;
+        
+        // Visual feedback
+        const chooseBtn = document.getElementById('choose-omi-btn');
+        if (chooseBtn) {
+            const originalText = chooseBtn.textContent;
+            chooseBtn.textContent = 'Omi Chosen!';
+            chooseBtn.style.borderColor = '#00ff88';
+            chooseBtn.style.boxShadow = '0 0 25px rgba(0, 255, 136, 0.7)';
+            chooseBtn.style.color = '#00ff88';
+            
+            setTimeout(() => {
+                chooseBtn.textContent = originalText;
+                chooseBtn.style.borderColor = '';
+                chooseBtn.style.boxShadow = '';
+                chooseBtn.style.color = '';
+            }, 2000);
+        }
+        
+        // Download the selected image
+        downloadImage(selectedImage);
+        
+        // Save selection to localStorage
+        try {
+            localStorage.setItem('selectedOmi', selectedImage);
+        } catch (e) {
+            // Silent error handling
+        }
+    };
+    
+    // Optimized download function
+    const downloadImage = (imageSrc) => {
+        const link = document.createElement('a');
+        link.href = imageSrc;
+        link.download = `selected-omi-${currentImageIndex + 1}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    
+    // Load previously selected character if available
+    const loadSavedCharacter = () => {
+        try {
+            const savedCharacter = localStorage.getItem('selectedOmi');
+            if (savedCharacter) {
+                const savedIndex = characterImages.indexOf(savedCharacter);
+                if (savedIndex !== -1) {
+                    currentImageIndex = savedIndex;
+                    const characterImage = document.getElementById('character-image');
+                    if (characterImage) {
+                        characterImage.src = savedCharacter;
+                    }
+                }
+            }
+        } catch (e) {
+            // Silent error handling
+        }
+    };
+    
+    // Initialize character selection when page loads
+    window.addEventListener('load', () => {
+        loadSavedCharacter();
+    });
 });
